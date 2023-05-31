@@ -82,4 +82,3 @@ resource "yandex_mdb_mysql_cluster" "this" {
 }
 
 #### .mylogin.cnf
-

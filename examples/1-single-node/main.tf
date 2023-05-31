@@ -1,5 +1,4 @@
 # main.tf
-data "yandex_client_config" "client" {}
 
 module "db" {
   source = "../../"
@@ -7,7 +6,7 @@ module "db" {
   network_id               = yandex_vpc_network.vpc.id
   name                     = "alone-in-the-dark"
   description              = "Single-node MySQL cluster for test purposes"
-  security_groups_ids_list = var.security_groups_enabled == true ? [yandex_vpc_security_group.mysql-sg[0].id] : null
+  security_groups_ids_list = var.security_groups_enabled == true ? [yandex_vpc_security_group.mysql_sg[0].id] : null
 
   maintenance_window = {
     type = "WEEKLY"

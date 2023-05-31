@@ -10,7 +10,7 @@ resource "yandex_vpc_subnet" "sub" {
 }
 
 # Security Group
-resource "yandex_vpc_security_group" "mysql-sg" {
+resource "yandex_vpc_security_group" "mysql_sg" {
   count       = var.security_groups_enabled == true ? 1 : 0
   name        = "sg-mysql"
   description = "mysql security group"
