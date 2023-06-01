@@ -1,5 +1,4 @@
 # main.tf
-data "yandex_client_config" "client" {}
 
 module "db" {
   source = "../../"
@@ -7,7 +6,7 @@ module "db" {
   network_id               = yandex_vpc_network.vpc.id
   name                     = "one-two-tree"
   description              = "Multi-node MySQL cluster for test purposes"
-  security_groups_ids_list = var.security_groups_enabled == true ? [yandex_vpc_security_group.mysql-sg[0].id] : null
+  security_groups_ids_list = var.security_groups_enabled == true ? [yandex_vpc_security_group.mysql_sg[0].id] : null
 
   hosts_definition = [
     {
@@ -15,20 +14,20 @@ module "db" {
       priority         = 0
       zone             = "ru-central1-a"
       assign_public_ip = true
-      subnet_id        = yandex_vpc_subnet.sub-a.id
+      subnet_id        = yandex_vpc_subnet.sub_a.id
     },
     {
       name             = "two"
       priority         = 10
       zone             = "ru-central1-b"
       assign_public_ip = true
-      subnet_id        = yandex_vpc_subnet.sub-b.id
+      subnet_id        = yandex_vpc_subnet.sub_b.id
     },
     {
       name                    = "suntree"
       zone                    = "ru-central1-b"
       assign_public_ip        = true
-      subnet_id               = yandex_vpc_subnet.sub-b.id
+      subnet_id               = yandex_vpc_subnet.sub_b.id
       replication_source_name = "two"
     }
   ]
