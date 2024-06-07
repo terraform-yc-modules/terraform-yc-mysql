@@ -59,6 +59,7 @@ resource "yandex_mdb_mysql_cluster" "this" {
       subnet_id               = host.value.subnet_id
       assign_public_ip        = host.value.assign_public_ip
       priority                = host.value.priority
+      backup_priority         = host.value.backup_priority
       replication_source_name = host.value.replication_source_name
     }
   }
