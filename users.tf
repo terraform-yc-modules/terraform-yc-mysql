@@ -25,10 +25,10 @@ resource "yandex_mdb_mysql_user" "user" {
   dynamic "connection_limits" {
     for_each = each.value.connection_limits == null ? [] : [each.value.connection_limits]
     content {
-      max_questions_per_hour   = connection_limits.max_questions_per_hour
-      max_updates_per_hour     = connection_limits.max_updates_per_hour
-      max_connections_per_hour = connection_limits.max_connections_per_hour
-      max_user_connections     = connection_limits.max_user_connections
+      max_questions_per_hour   = connection_limits.value.max_questions_per_hour
+      max_updates_per_hour     = connection_limits.value.max_updates_per_hour
+      max_connections_per_hour = connection_limits.value.max_connections_per_hour
+      max_user_connections     = connection_limits.value.max_user_connections
     }
   }
 
