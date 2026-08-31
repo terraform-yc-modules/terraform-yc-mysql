@@ -14,6 +14,8 @@ resource "yandex_mdb_mysql_cluster" "this" {
   labels                    = var.labels
   version                   = var.mysql_version
   deletion_protection       = var.deletion_protection
+  disk_encryption_key_id    = var.disk_encryption_key_id
+  host_group_ids            = var.host_group_ids
   security_group_ids        = var.security_groups_ids_list
   backup_retain_period_days = var.backup_retain_period_days
 
@@ -31,6 +33,7 @@ resource "yandex_mdb_mysql_cluster" "this" {
       data_lens     = var.access_policy.data_lens
       web_sql       = var.access_policy.web_sql
       data_transfer = var.access_policy.data_transfer
+      yandex_query  = var.access_policy.yandex_query
     }
   }
 
@@ -48,6 +51,15 @@ resource "yandex_mdb_mysql_cluster" "this" {
     content {
       hours   = var.backup_window_start.hours
       minutes = var.backup_window_start.minutes
+    }
+  }
+
+  dynamic "disk_size_autoscaling" {
+    for_each = var.disk_size_autoscaling == null ? [] : [var.disk_size_autoscaling]
+    content {
+      disk_size_limit           = disk_size_autoscaling.value.disk_size_limit
+      emergency_usage_threshold = disk_size_autoscaling.value.emergency_usage_threshold
+      planned_usage_threshold   = disk_size_autoscaling.value.planned_usage_threshold
     }
   }
 

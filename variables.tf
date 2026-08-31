@@ -56,8 +56,8 @@ variable "mysql_version" {
   type        = string
   default     = "8.0"
   validation {
-    condition     = contains(["5.7", "8.0"], var.mysql_version)
-    error_message = "Allowed MySQL versions are 5.7, 8.0."
+    condition     = contains(["5.7", "8.0", "8.4"], var.mysql_version)
+    error_message = "Allowed MySQL versions are 5.7, 8.0, 8.4."
   }
 }
 
@@ -85,8 +85,31 @@ variable "access_policy" {
     data_lens     = optional(bool, null)
     web_sql       = optional(bool, null)
     data_transfer = optional(bool, null)
+    yandex_query  = optional(bool, null)
   })
   default = {}
+}
+
+variable "disk_encryption_key_id" {
+  description = "ID of the KMS symmetric key used to encrypt cluster disks."
+  type        = string
+  default     = null
+}
+
+variable "disk_size_autoscaling" {
+  description = "Optional disk autoscaling settings for the cluster."
+  type = object({
+    disk_size_limit           = number
+    emergency_usage_threshold = optional(number, null)
+    planned_usage_threshold   = optional(number, null)
+  })
+  default = null
+}
+
+variable "host_group_ids" {
+  description = "IDs of host groups where cluster VMs are placed."
+  type        = list(string)
+  default     = null
 }
 
 variable "restore_parameters" {
